@@ -1,0 +1,14 @@
+- job_name: blackbox
+  metrics_path: /probe
+  params:
+    module: [http_2xx]
+  static_configs:
+    - targets:
+      - http://54.234.204.102/
+  relabel_configs:
+  - source_labels: [_address_]
+    target_label: __param_target
+  - source_labels: [__param_target]
+    target_label: instance
+  - target_label: _address_
+    replacement: prometheus-blackbox-exporter.monitoring:9115
